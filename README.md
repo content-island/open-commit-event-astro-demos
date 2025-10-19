@@ -1,4 +1,4 @@
-✨ Astro Talk — Open Commit Fest 2025
+# ✨ Astro Talk — Open Commit Fest 2025
 
 Welcome to the repository for my talk on Astro at the Open Commit Fest 2025!
 
@@ -19,13 +19,14 @@ Each subfolder includes a **README** with the precise steps for that demo.
 
 ```
 /
-├── 00-astro-101/            # Fundamentals (each demo has its own README)
-│   ├── 00-fences
-│   ├── 02-collections
-│   ├── 03-components
-│   ├── 04-styles
-│   └── 05-layout
-└── 01-real-project/         # Real blog, progressively built (each step has a README)
+├── 00-astro-101/
+|   ├── 01-start
+│   ├── 02-fences
+│   ├── 03-collections
+│   ├── 04-components
+│   ├── 05-styles
+│   └── 06-layout
+└── 01-real-project/
     ├── 01-post-list
     ├── 02-post-detail
     ├── 03-react-component
