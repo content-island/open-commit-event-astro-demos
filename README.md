@@ -1,4 +1,4 @@
-# ✨ Astro Talk — Open Commit Fest 2025
+# ✨ Astro Talk — Open Commit Fest 2025
 
 Welcome to the repository for my talk on Astro at the Open Commit Fest 2025!
 
