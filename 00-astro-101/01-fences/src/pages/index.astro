@@ -1,5 +1,9 @@
 ---
-
+const title = "Hola Open Commit 2025";
+const imageError = "https://www.publicdomainpictures.net/pictures/190000/nahled/sad-dog-1468499671wYW.jpg";
+const res = await fetch("https://dog.ceo/api/breeds/image/random");
+const response = await res.json();
+const dogImageUrl = response?.message ?? imageError;
 ---
 
 <html lang="en">
@@ -11,6 +15,16 @@
 		<title>Astro</title>
 	</head>
 	<body>
-		<h1>Astro</h1>
+		<h1>{title}</h1>
+		<img src={dogImageUrl} alt="Random Dog" style="max-width: 400px; height: auto;" style="max-width: 400px; height: auto;"/>
+		<div>
+			<button id="cat-image-button">Get Cat Image</button>
+			<img id="cat-image" style="max-width: 400px; height: auto;"/>
+		</div>
 	</body>
 </html>
+
+<script>
+import { setupCatFactButton } from "./cat";
+setupCatFactButton();
+</script>

@@ -10,7 +10,7 @@ _./src/pages/index.astro_
 
 ```diff
 ---
-+ const title = "Hello React Alicante";
++ const title = "Hola Open Commit 2025";
 ---
 
 <html lang="en">
@@ -50,7 +50,7 @@ _./src/pages/index.astro_
 + const res = await fetch("https://dogapi.dog/api/v2/facts");
 + const response = await res.json();
 + const title = response?.data[0]?.attributes?.body ?? "Ooops api not working?";
-- const title = "Hello React Alicante";
+- const title = "Hola Open Commit 2025";
 ---
 ```
 

@@ -10,7 +10,7 @@ _./src/pages/index.astro_
 
 ```diff
 ---
-+ const title = "Hola React Alicante";
++ const title = "Hola Open Commit 2025";
 ---
 
 <html lang="en">
@@ -41,22 +41,33 @@ Son bloques de código que se ejecutan en el servidor. Si estamos en modo **SSG*
 
 Vamos a verlo más claro: vamos a obtener un valor aleatorio desde una API y mostrarlo en la página.
 
-Por ejemplo, existe una API pública que devuelve datos curiosos sobre perros. Vamos a usarla.
+Por ejemplo, existe una API pública que devuelve datos fotitos de perros
 
 _./src/pages/index.astro_
 
 ```diff
 ---
-+ const res = await fetch("https://dogapi.dog/api/v2/facts");
+const title = "Hola Open Commit 2025";
++ const imageError = "https://www.publicdomainpictures.net/pictures/190000/nahled/sad-dog-1468499671wYW.jpg";
++ const res = await fetch("https://dog.ceo/api/breeds/image/random");
 + const response = await res.json();
-+ const title = response?.data[0]?.attributes?.body ?? "Vaya, ¿la API no funciona?";
-- const title = "Hola React Alicante";
++ const dogImageUrl = response?.message ?? imageError;
 ---
+```
+
+Y actualizamos para mostrar una imagen:
+
+_./src/pages/index.astro_
+
+```diff
+	<body>
+     <h1>{title}</h1>
++    <img src={dogImageUrl} alt="Random Dog" style="max-width: 400px; height: auto;"/>
 ```
 
 Comprobemos el resultado en el navegador: deberíamos ver un dato curioso sobre perros.
 
-Si hacemos un build y miramos los archivos generados en _./dist/index.html_, veremos que el dato del perro ya está incluido, porque se obtuvo en el momento de la construcción del sitio.
+Si hacemos un build y miramos los archivos generados en _./dist/index.html_, veremos que la imagen del perro ya está incluida, porque se obtuvo en el momento de la construcción del sitio.
 
 ```bash
 npm run build
@@ -66,7 +77,7 @@ npm run build
 
 ¿Pero podemos ejecutar código en el navegador? ¡Por supuesto! Incluso podemos usar React, Vue o Svelte para ello.
 
-Hagamos un ejemplo muy simple en vanilla JavaScript: añadiremos un botón que obtenga y muestre un dato curioso sobre gatos. El botón se llamará **“Get Cat Fact”**.
+Hagamos un ejemplo muy simple en vanilla JavaScript: añadiremos un botón que obtenga y muestre un dato curioso sobre gatos. El botón se llamará **“Get Cat Image”**.
 
 _./src/pages/index.astro_
 
@@ -81,20 +92,23 @@ _./src/pages/index.astro_
 	</head>
 	<body>
 		<h1>{title}</h1>
-+		<button id="cat-fact-button">Get Cat Fact</button>
-+		<h2 id="cat-fact"></h2>
+		<img src={dogImageUrl} alt="Random Dog" />
++   <div>
++		  <button id="cat-image-button">Get Cat Image</button>
++		  <img id="cat-image" style="max-width: 400px; height: auto;"/>
++   </div>
 	</body>
 </html>
 
 + <script>
-+ const button = document.getElementById("cat-fact-button");
-+ const factEl = document.getElementById("cat-fact");
++ const button = document.getElementById("cat-image-button");
++ const imageEl = document.getElementById("cat-image") as HTMLImageElement;
 +
-+ if (button && factEl) {
++ if (button && imageEl) {
 +  button.addEventListener("click", async () => {
-+    const res = await fetch("https://catfact.ninja/fact");
++    const res = await fetch("https://api.thecatapi.com/v1/images/search");
 +    const data = await res.json();
-+    factEl.innerText = data.fact;
++    imageEl.src = data[0].url;
 +  });
 +}
 + </script>
@@ -130,20 +144,20 @@ Importante: en modo desarrollo local, cada vez que recargues la página el códi
 _./src/pages/cat.ts_
 
 ```ts
-async function getCatFact() {
-  const res = await fetch("https://catfact.ninja/fact");
+async function getCatImage() {
+  const res = await fetch("https://api.thecatapi.com/v1/images/search");
   const data = await res.json();
-  return data.fact;
+  return data[0].url;
 }
 
 export const setupCatFactButton = () => {
-  const button = document.getElementById("cat-fact-button");
-  const factEl = document.getElementById("cat-fact");
+  const button = document.getElementById("cat-image-button");
+  const imageEl = document.getElementById("cat-image") as HTMLImageElement;
 
-  if (button && factEl) {
+  if (button && imageEl) {
     button.addEventListener("click", async () => {
-      const fact = await getCatFact();
-      factEl.innerText = fact;
+      const fact = await getCatImage();
+      imageEl.src = fact;
     });
   }
 };
@@ -157,16 +171,16 @@ _./src/pages/index.astro_
 <script>
 + import { setupCatFactButton } from "./cat";
 + setupCatFactButton();
--  const button = document.getElementById("cat-fact-button");
--  const factEl = document.getElementById("cat-fact");
+- const button = document.getElementById("cat-image-button");
+- const imageEl = document.getElementById("cat-image") as HTMLImageElement;
 -
--  if (button && factEl) {
--    button.addEventListener("click", async () => {
--      const res = await fetch("https://catfact.ninja/fact");
--      const data = await res.json();
--      factEl.innerText = data.fact;
--    });
--  }
+- if (button && imageEl) {
+-  button.addEventListener("click", async () => {
+-    const res = await fetch("https://api.thecatapi.com/v1/images/search");
+-    const data = await res.json();
+-    imageEl.src = data[0].url;
+-  });
+-}
 </script>
 
 ```
