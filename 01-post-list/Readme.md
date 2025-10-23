@@ -1,18 +1,18 @@
-# Post list
+# Lista de posts
 
-If we navigate to the homepage, we can see an empty place holder where the list of posts will be displayed.
+Si navegamos a la página principal, podemos ver un marcador de posición vacío donde se mostrará la lista de posts.
 
-Where can we get the list of posts? From Content Island
+¿De dónde podemos obtener la lista de posts? De **Content Island**.
 
-**Quick Check Content Island list of posts**
+**Comprobación rápida de la lista de posts de Content Island**
 
-Let's get the list of posts from Content Island
+Vamos a obtener la lista de posts desde Content Island.
 
-We are going to create a new Pod and we will call it post-collection.
+Vamos a crear un nuevo **Pod** y lo llamaremos **post-collection**.
 
-Let's add the post model to a new file called **post-collection.model.ts**.
+Agreguemos el modelo de post en un nuevo archivo llamado **post-collection.model.ts**.
 
-**Copy from Content Island**
+**Copiar desde Content Island**
 
 _./src/pods/post-collection/post-collection.model.ts_
 
@@ -24,7 +24,7 @@ export interface Post {
   language: "en";
   title: string;
   slug: string;
-  date: string; // Stores the date in ISO 8601 format. For example: 2021-09-10T19:30:00.000Z
+  date: string; // Almacena la fecha en formato ISO 8601. Por ejemplo: 2021-09-10T19:30:00.000Z
   summary: string;
   image: Media;
   content: string;
@@ -32,7 +32,7 @@ export interface Post {
 }
 ```
 
-And the api to load the posts.
+Y la API para cargar los posts:
 
 _./src/pods/post-collection/post-collection.api.ts_
 
@@ -48,9 +48,9 @@ export const getAllPosts = async () =>
   });
 ```
 
-This time we will call `getAllPosts` in the post pod, but we could make the call in the index page and pass the posts as props to the post list component.
+Esta vez llamaremos a `getAllPosts` dentro del pod de posts, pero podríamos hacer la llamada en la página **index** y pasar las posts como *props* al componente de lista de posts.
 
-Let's create a new pod file **post-collection.pod.astro** and check that data is being loaded correctly.
+Vamos a crear un nuevo archivo pod llamado **post-collection.pod.astro** y verificar que los datos se estén cargando correctamente.
 
 _./src/pods/post-collection/post-collection.pod.astro_
 
@@ -67,7 +67,7 @@ const posts = await getAllPosts();
 </section>
 ```
 
-Let's make use of this post:
+Ahora vamos a usar este pod de posts:
 
 _./src/pages/index.astro_
 
@@ -84,7 +84,7 @@ import PopularPosts from '#pods/popular-posts/popular-posts.astro';
 const homeContent = {
   hero: {
     title: "John's Web Dev Blog",
-    description: 'Here you can find various articles on web application development.',
+    description: 'Aquí puedes encontrar varios artículos sobre desarrollo de aplicaciones web.',
   },
 };
 ---
@@ -99,17 +99,17 @@ const homeContent = {
   <Fragment slot="aside">
 ```
 
-If we ran the project, we would see the list of posts (just the titles for now).
+Si ejecutamos el proyecto, deberíamos ver la lista de posts (solo los títulos por ahora).
 
 ```bash
 npm run dev
 ```
 
-Let's give it some style, we will create a component that will show a post card.
+Vamos a darle algo de estilo. Crearemos un componente que mostrará una **tarjeta de post**.
 
-We create a new folder inside the post-collection pod called components and inside we create a new file called post-card.astro.
+Creamos una nueva carpeta dentro del pod **post-collection** llamada **components** y dentro de ella un nuevo archivo llamado **post-card.astro**.
 
-First we will define the code in the fences:
+Primero definiremos el código en la parte superior:
 
 _./src/pods/post-collection/components/post-card.astro_
 
@@ -126,7 +126,7 @@ const readTimeLabel = 'min read';
 ---
 ```
 
-And Let's go for the markup:
+Y ahora vamos por el marcado HTML:
 
 ```astro
 <a
@@ -173,7 +173,7 @@ And Let's go for the markup:
 </a>
 ```
 
-And let's use it in our post collection pod:
+Y vamos a usarlo en nuestro pod de colección de publicaciones:
 
 _./src/pods/post-collection/post-collection.pod.astro_
 
@@ -191,7 +191,7 @@ const posts = await getAllPosts();
 </section>
 ```
 
-Not bad, let's give some extra styling...
+Nada mal, ahora vamos a darle un poco más de estilo...
 
 _./src/pods/post-collection/post-collection.pod.astro_
 
@@ -205,4 +205,4 @@ _./src/pods/post-collection/post-collection.pod.astro_
 </section>
 ```
 
-And there we go :), now if we click on a post, we will get a 404, but we will fix that in the next step, let's display a single post.
+Y listo 😊, ahora si hacemos clic en una publicación obtendremos un error **404**, pero lo arreglaremos en el siguiente paso: mostrar una sola publicación.
