@@ -1,18 +1,18 @@
-# 03 React Integration
+# 03 Integración con React
 
-We mentioned that Astro can easily integrate with your favorite frameworks. Let’s see how to do that with React.
+Mencionamos que Astro puede integrarse fácilmente con tus frameworks favoritos. Veamos cómo hacerlo con React.
 
-As a quick practice exercise, we’re going to implement a _cool_ like button using React. (Of course, this could be done with plain vanilla JavaScript, but here we want to practice React.)
+Como ejercicio rápido de práctica, vamos a implementar un botón de **like** usando React. (Por supuesto, esto podría hacerse con JavaScript puro, pero aquí queremos practicar React).
 
-## Step 1: Install React
+## Paso 1: Instalar React
 
-Let’s install the React integration for Astro:
+Instalemos la integración de React para Astro:
 
 ```bash
 npm install @astrojs/react
 ```
 
-Now update the `astro.config.mjs` file to add the React integration:
+Ahora actualiza el archivo `astro.config.mjs` para añadir la integración de React:
 
 ```diff
 // @ts-check
@@ -39,22 +39,22 @@ export default defineConfig({
 });
 ```
 
-## Step 2: Create the React component
+## Paso 2: Crear el componente de React
 
-Now let’s create the React component for our like button.
+Ahora creemos el componente de React para nuestro botón de like.
 
-For simplicity, we’ll just store the number of likes in memory (using `localStorage`). In a real-world app, you’d probably want to persist this in a database.
+Para simplificar, solo almacenaremos el número de likes en memoria (usando `localStorage`). En una app real, probablemente quieras persistirlo en una base de datos.
 
 _./src/pods/post/components/like-button.component.tsx_
 
 ```tsx
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 
 export const LikeButton: React.FC = () => {
   const [likes, setLikes] = useState<number>(0);
 
   useEffect(() => {
-    const storedLikes = localStorage.getItem('likes');
+    const storedLikes = localStorage.getItem("likes");
     if (storedLikes) {
       setLikes(parseInt(storedLikes, 10));
     }
@@ -63,7 +63,7 @@ export const LikeButton: React.FC = () => {
   const handleLike = () => {
     const newLikes = likes + 1;
     setLikes(newLikes);
-    localStorage.setItem('likes', newLikes.toString());
+    localStorage.setItem("likes", newLikes.toString());
   };
 
   return (
@@ -85,7 +85,7 @@ export const LikeButton: React.FC = () => {
         >
           <path
             fill="currentColor"
-            d="M12 19.75a.75.75 0 0 1-.53-.22L4.7 12.74a5 5 0 0 1 0-7a4.95 4.95 0 0 1 7 0L12 6l.28-.28a4.92 4.92 0 0 1 3.51-1.46a4.92 4.92 0 0 1 3.51 1.45a5 5 0 0 1 0 7l-6.77 6.79a.75.75 0 0 1-.53.25m-3.79-14a3.44 3.44 0 0 0-2.45 1a3.48 3.48 0 0 0 0 4.91L12 17.94l6.23-6.26a3.47 3.47 0 0 0 0-4.91a3.4 3.4 0 0 0-2.44-1a3.44 3.44 0 0 0-2.45 1l-.81.81a.77.77 0 0 1-1.06 0l-.81-.81a3.44 3.44 0 0 0-2.45-1.02"
+            d="M12 19.75a.75.75 0 0 1-.53-.22L4.7 12.74a5 5 0 0 1 0-7a4.95 4.95 0 0 1 7 0L12 6l.28-.28a4.92 4.92 0 0 1 3.51-1.46a4.92 4.92 0 0 1 3.51 1.45a5 5 0 0 1 0 7l-6.77 6.79a.75.75 0 0 1-.53.25m-3.79-14a3.44 3.44 0 0 0-2.45 1a3.48 3.48 0 0 0 0 4.91L12 17.94l6.23-6.26a3.47 3.47 0 0 0 0-4.91a3.4 3.4 0  0 0-2.44-1a3.44 3.44 0 0 0-2.45 1l-.81.81a.77.77 0 0 1-1.06 0l-.81-.81a3.44 3.44 0 0 0-2.45-1.02"
           />
         </svg>
       </button>
@@ -97,9 +97,9 @@ export const LikeButton: React.FC = () => {
 export default LikeButton;
 ```
 
-## Step 3: Use the React component in an Astro page
+## Paso 3: Usar el componente de React en una página de Astro
 
-Now let’s use the React component inside our Astro page.
+Ahora usemos el componente de React dentro de nuestra página de Astro.
 
 _src/pods/post/components/body.astro_
 
@@ -126,10 +126,10 @@ const { entry, likeCount, minReadText } = Astro.props;
 -    <div class="flex items-center">
 -      <button
 -        type="button"
--        class="group w-fit cursor-pointer rounded-full p-1 transition-colors duration-300"
+-        class="group w-fit cursor-pointer rounded-full p-1 transition-colors duración-300"
 -        aria-label="Like"
 -      >
--        <HeartIcon class="h-5.5 w-5.5 transition-colors duration-300 group-hover:text-red-500" />
+-        <HeartIcon class="h-5.5 w-5.5 transition-colors duración-300 group-hover:text-red-500" />
 -      </button>
 -      <span class="text-xs">{likeCount}</span>
 -    </div>
@@ -138,10 +138,10 @@ const { entry, likeCount, minReadText } = Astro.props;
   <MarkdownRenderer content={entry.content} />
 ```
 
-Now let’s test it out:
+Ahora probémoslo:
 
 ```bash
 npm run dev
 ```
 
-You can even debug it if you want… 🔍
+Incluso puedes depurarlo si quieres… 🔍
