@@ -1,49 +1,48 @@
-# 02 Post Detail
+# 02 Detalle de Post
 
-Let's display the post detail page.
+Vamos a mostrar la página de detalle del Post.
 
-Right now, if we try to navigate to a specific post detail page, we get a 404 error.
+Actualmente, si intentamos navegar a una página de detalle específica de un Post, obtenemos un error 404.
 
-Let's start by creating the post detail page.
+Comencemos creando la página de detalle del Post.
 
-Add a new folder **post** inside **src/pages**. Inside the post folder, create a new file named **index.astro**, and add, for example, the following:
+Agrega una nueva carpeta **post** dentro de **src/pages**. Dentro de esa carpeta, crea un nuevo archivo llamado **index.astro**, y agrega, por ejemplo, lo siguiente:
 
 _./src/pages/posts/index.astro_
 
 ```astro
-<h1>Hey I'm the post detail</h1>
+<h1>Hey soy el detalle del Post</h1>
 ```
 
-But this won’t work. We need one route per post. In Content Island we have a field called `slug` that we can use to create a dynamic route, and then link each post with it.
+Pero esto no funcionará. Necesitamos una ruta por cada Post. En Content Island tenemos un campo llamado `slug` que podemos usar para crear una ruta dinámica, y luego vincular cada Post con ella.
 
-So, what can we do? Astro provides a way to create dynamic routes using square brackets:
+Entonces, ¿qué podemos hacer? Astro proporciona una forma de crear rutas dinámicas usando corchetes:
 
-- You can add one or more segments to the file name using square brackets to indicate a dynamic segment.
+- Puedes agregar uno o más segmentos al nombre del archivo usando corchetes para indicar un segmento dinámico.
+- El nombre dentro de los corchetes se convierte en la propiedad que puedes usar para acceder al valor de ese segmento.
+- Con _getStaticPaths_, puedes decirle a Astro qué páginas debe generar en tiempo de compilación.
 
-- The name inside the brackets becomes the property you can use to access that segment’s value.
-- With _getStaticPaths_, you can tell Astro which pages to generate at build time.
+Si eres fan de Marvel, piensa en _Infinity War_ cuando el Dr. Strange miró millones de futuros y solo vio uno donde ganaban. Es más o menos lo que estamos haciendo aquí: decirle a Astro exactamente qué páginas generar durante la compilación.
 
-If you’re a Marvel fan, think of _Infinity War_ when Dr. Strange looked into millions of futures and saw only one where they won. That’s pretty much what we’re doing here: telling Astro exactly which pages to generate at build time.
-
-So let’s rename the file from _index.astro_ to:
+Así que renombramos el archivo de _index.astro_ a:
 
 _./src/pages/posts/[slug].astro_
 
-And now let’s calculate all the paths we need to generate using _getStaticPaths_.
+Y ahora calculemos todas las rutas que necesitamos generar usando _getStaticPaths_.
 
-To do this, we need to:
+Para hacerlo, necesitamos:
 
-- Fetch the list of posts from Content Island.
-- For each post, return an object with a `params` property containing the post’s slug.
-- Then use the props to render the post detail.
+- Obtener la lista de Posts desde Content Island.
+- Para cada Post, devolver un objeto con una propiedad `params` que contenga el slug del Post.
+- Luego usar las props para renderizar el detalle del Post.
 
-We already have an API and model available in the post-collection pod. At this point, we could:
+Ya tenemos una API y un modelo disponibles en el pod **post-collection**. En este punto, podríamos:
 
-1. Reuse that API and model on the page.
-2. Copy the API and model into the page.
-3. Promote it to shared code that can be reused.
+1. Reutilizar esa API y modelo en la página.  
+2. Copiar la API y el modelo dentro de la página.  
+3. Promoverlos a código compartido que pueda reutilizarse.
 
-For simplicity, let’s just reuse the API and model directly on the page.
+Por simplicidad, reutilizaremos directamente la API y el modelo en la página.
 
 _./src/pages/posts/[slug].astro_
 
@@ -53,7 +52,7 @@ import Layout from '#layouts/layout.astro';
 import { getAllPosts } from '#pods/post-collection/post-collection.api';
 import type { Post } from '#pods/post-collection/post-collection.model';
 
-// Generate all possible paths
+// Generar todas las rutas posibles
 export async function getStaticPaths() {
   const postEntries = await getAllPosts();
   return postEntries.map(entry => ({
@@ -62,12 +61,12 @@ export async function getStaticPaths() {
   }));
 }
 
-// Per path let's generate the page
+// Por cada ruta generamos la página
 const { entry } = Astro.props;
 ---
 ```
 
-Let's check that the post detail is being shown.
+Verifiquemos que el detalle del Post se esté mostrando.
 
 _./src/pages/posts/[slug].astro_
 
@@ -79,15 +78,15 @@ _./src/pages/posts/[slug].astro_
 + </Layout>
 ```
 
-Let's run this and check that everything is working as expected.
+Ejecutemos esto para comprobar que todo funcione correctamente.
 
 ```bash
 npm run dev
 ```
 
-Time to add some design :).
+Hora de agregar algo de diseño :)
 
-Let’s add a _hero_ component to display the post title.
+Agreguemos un componente **hero** para mostrar el título del Post.
 
 _./src/pages/posts/[slug].astro_
 
@@ -108,7 +107,7 @@ _./src/pages/posts/[slug].astro_
  </Layout>
 ```
 
-On the aside we have different elements, so let’s define them here:
+En el *aside* tenemos diferentes elementos, así que definámoslos aquí:
 
 _./src/pages/posts/[slug].astro_
 
@@ -138,13 +137,13 @@ _./src/pages/posts/[slug].astro_
  </Layout>
 ```
 
-Let's give it a try:
+Probémoslo:
 
 ```bash
 npm run dev
 ```
 
-Now let’s dive into the post content. We’ll create a separate component for this.
+Ahora profundicemos en el contenido del Post. Crearemos un componente separado para esto.
 
 _src/pods/post/post.pod.astro_
 
@@ -173,7 +172,7 @@ const postContent = {
 </section>
 ```
 
-Let's use it on the post detail page.
+Usémoslo en la página de detalle del Post.
 
 _./src/pages/posts/[slug].astro_
 
@@ -187,7 +186,7 @@ import PopularPostsPod from '#pods/popular-posts/popular-posts.astro';
 import { getAllPosts } from '#pods/post-collection/post-collection.api';
 + import PostPod from '#pods/post/post.pod.astro';
 
-// Generate all possible paths
+// Generar todas las rutas posibles
 export async function getStaticPaths() {
   const postEntries = await getAllPosts();
   return postEntries.map(entry => ({
@@ -196,7 +195,7 @@ export async function getStaticPaths() {
   }));
 }
 
-// Per path let's generate the page
+// Por cada ruta generamos la página
 const { entry } = Astro.props;
 ---
 
@@ -212,7 +211,8 @@ const { entry } = Astro.props;
 </Layout>
 ```
 
-It works, but it doesn’t look great yet. If we compare it with the original post, we see that we need both a header and a body. Let’s create two new components, for that inside the post pod add a new folder named **components**.
+Funciona, pero aún no se ve muy bien. Si lo comparamos con el Post original, vemos que necesitamos tanto un encabezado como un cuerpo.  
+Creemos dos nuevos componentes; para eso, dentro del pod **post** agrega una nueva carpeta llamada **components**.
 
 _src/pods/post/components/header.astro_
 
@@ -266,9 +266,9 @@ import type { Post } from '#pods/post-collection/post-collection.model';
 </section>
 ```
 
-Looking better… now let’s create the body component.
+Se ve mejor… ahora creemos el componente **body**.
 
-First, define the component and its server-side code:
+Primero, definimos el componente y su código del lado del servidor:
 
 _src/pods/post/components/body.astro_
 
@@ -287,7 +287,7 @@ const { entry, likeCount, minReadText } = Astro.props;
 ---
 ```
 
-And the markup:
+Y el marcado:
 
 _src/pods/post/components/body.astro_
 
@@ -314,7 +314,7 @@ _src/pods/post/components/body.astro_
 </div>
 ```
 
-Let’s use it inside the post pod.
+Usemos este componente dentro del pod del Post.
 
 _src/pods/post/post.pod.astro_
 
@@ -335,7 +335,8 @@ import Header from '#pods/post/components/header.astro';
 </section>
 ```
 
-Much better, but the content is not yet being rendered as HTML. To fix this, we can use a wrapper with _Marked_ and _highlight.js_ to render the content properly, and use it inside the body component.
+Mucho mejor, pero el contenido aún no se está renderizando como HTML.  
+Para solucionarlo, podemos usar un contenedor con _Marked_ y _highlight.js_ para renderizar el contenido correctamente, y usarlo dentro del componente **body**.
 
 _src/pods/post/components/body.astro_
 
@@ -356,7 +357,7 @@ import type { Post } from '#pods/post-collection/post-collection.model';
 </div>
 ```
 
-And… there we go:
+Y… ¡listo! 🎉
 
 ```bash
 npm run dev
