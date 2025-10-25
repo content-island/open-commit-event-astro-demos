@@ -2,7 +2,7 @@
 
 Vamos a mostrar la página de detalle del Post.
 
-Actualmente, si intentamos navegar a una página de detalle específica de un Post, obtenemos un error 404.
+Ahora mismo, si intentamos navegar a una página de detalle específica de un Post, obtenemos un error 404.
 
 Comencemos creando la página de detalle del Post.
 
